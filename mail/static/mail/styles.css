@@ -8,7 +8,17 @@ textarea {
     color: white;
 }
 
-.unread{
+.read{
     background: #eee;
     border-bottom: 1px solid #d8d8d8;
+}
+
+#reader-body{
+    width: 100%;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+}
+
+#reader-splitter{
+    background: #eee;
 }
