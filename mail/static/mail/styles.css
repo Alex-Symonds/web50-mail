@@ -1,0 +1,14 @@
+textarea {
+    min-height: 400px;
+}
+
+.mailbox-header{
+    position: relative;
+    background: #333;
+    color: white;
+}
+
+.unread{
+    background: #eee;
+    border-bottom: 1px solid #d8d8d8;
+}
