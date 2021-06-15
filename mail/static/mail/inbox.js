@@ -45,7 +45,7 @@ function load_mailbox(mailbox) {
 
 
 
-function read_email(email_id){
+function read_email(email_id, mailbox){
 
     // Show the email reader and hide other views
     document.querySelector('#emails-view').style.display = 'none';
@@ -57,16 +57,16 @@ function read_email(email_id){
     rdv.innerHTML = '';
 
     // Load the email reader
-    add_email_container(email_id, rdv);
+    add_email_container(email_id, rdv, mailbox);
 }
 
-function add_email_container(email_id, rdv){
+function add_email_container(email_id, rdv, mailbox){
   fetch(`/emails/${email_id}`)
   .then(response => response.json())
   .then(email =>{
     console.log(email);
     mark_as_read(email_id);
-    rdv.append(email_element(email))
+    rdv.append(email_element(email, mailbox))
   })
   .catch(error => {
     console.log('Error: ', error);
@@ -101,14 +101,17 @@ function toggle_archived(email){
 }
 
 
-function email_element(email){
+function email_element(email, mailbox){
   // Create a container element
   let ediv = document.createElement('div');
   ediv.classList.add('container');
   ediv.id = 'reader-container';
 
-  // Add div for archive button
-  ediv.append(archive_icon(email));
+  // If this is not the sent box, add a div for the archive button
+  if (mailbox !== 'sent')
+  {
+    ediv.append(archive_icon(email));
+  }
 
   // Add rows for info at the top
   ediv.append(reader_info_row('From:', email.sender));
@@ -192,7 +195,7 @@ function add_mailbox_container(mailbox, emv){
   .then(response => response.json())
   .then(emails => {
     console.log(emails);
-    emv.append(mailbox_element(emails));
+    emv.append(mailbox_element(emails, mailbox));
   })
   .catch(error => {
     console.log('Error: ', error);
@@ -200,7 +203,7 @@ function add_mailbox_container(mailbox, emv){
 }
 
 // Create elements for a table showing a list of all emails in a particular mailbox
-function mailbox_element(emails){
+function mailbox_element(emails, mailbox){
   // Setup the container div
   const container = document.createElement('div');
   container.classList.add('container', 'mailbox-container');
@@ -227,7 +230,7 @@ function mailbox_element(emails){
     // Add the info
     ediv.innerHTML = `<div class="col">${email.sender}</div><div class="col">${email.subject}</div><div class="col">${email.timestamp}</div>`;
     ediv.addEventListener('click', function(){
-      read_email(email.id)
+      read_email(email.id, mailbox)
     });
     container.append(ediv);
   });
