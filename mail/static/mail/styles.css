@@ -2,46 +2,36 @@ textarea {
     min-height: 400px;
 }
 
-.mailbox-header{
-    position: relative;
-    background: #333;
-    color: white;
+#mailbox-container{
+    border-top: 1px solid #d8d8d8;
 }
 
 .read{
     background: #eee;
-    border-bottom: 1px solid #d8d8d8;
+    border: 1px solid #d8d8d8;
+    border-width: 0px 1px 1px 1px;
 }
 
 #reader-body{
     width: 100%;
     margin-top: 0.5rem;
     padding: 0.5rem;
+    white-space: pre-wrap;
 }
 
 #reader-splitter{
     background: #eee;
 }
 
-#reader-container{
-    position: relative;
+#reader-command-row{
+    margin-top: 0.8rem;
 }
 
-#archive-toggle{
-    font-size: 0.9rem;
-    width: 9rem;
-    text-align: center;
+.my-btn{
+    width: 100%;
+    min-width: 4rem;
+}
 
-    position: absolute;
-    top: 0;
-    right: 15px;
-    z-index: 1;
-}
-.unarchived{
-    background: #eee;
-    color: #333;
-}
-.archived{
-    background: #333;
-    color: #eee;   
+#send-email-btn{
+    margin-top: 0.5rem;
 }
