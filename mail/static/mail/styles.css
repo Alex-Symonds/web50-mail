@@ -22,3 +22,26 @@ textarea {
 #reader-splitter{
     background: #eee;
 }
+
+#reader-container{
+    position: relative;
+}
+
+#archive-toggle{
+    font-size: 0.9rem;
+    width: 9rem;
+    text-align: center;
+
+    position: absolute;
+    top: 0;
+    right: 15px;
+    z-index: 1;
+}
+.unarchived{
+    background: #eee;
+    color: #333;
+}
+.archived{
+    background: #333;
+    color: #eee;   
+}

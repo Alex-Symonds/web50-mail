@@ -85,16 +85,36 @@ function mark_as_read(email_id){
   });
 }
 
+function toggle_archived(email){
+  fetch(`/emails/${email.id}`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      archived: !email.archived
+    })
+  })
+  .then(
+    load_mailbox('inbox')
+  )
+  .catch(error => {
+    console.log('Error: ', error);
+  });
+}
+
 
 function email_element(email){
+  // Create a container element
   let ediv = document.createElement('div');
   ediv.classList.add('container');
+  ediv.id = 'reader-container';
+
+  // Add div for archive button
+  ediv.append(archive_icon(email));
 
   // Add rows for info at the top
-  ediv.append(add_read_row('From:', email.sender));
-  ediv.append(add_read_row('To:', email.recipients));
-  ediv.append(add_read_row('Sent:', email.timestamp));
-  ediv.append(add_read_row('Subject:', email.subject));
+  ediv.append(reader_info_row('From:', email.sender));
+  ediv.append(reader_info_row('To:', email.recipients));
+  ediv.append(reader_info_row('Sent:', email.timestamp));
+  ediv.append(reader_info_row('Subject:', email.subject));
 
   // Add hr
   let my_hr = document.createElement('hr');
@@ -110,8 +130,33 @@ function email_element(email){
   return ediv;
 }
 
+function archive_icon(email){
 
-function add_read_row(label, content){
+  // Create a element and set the ID and event listener
+  const adiv = document.createElement('div');
+  adiv.id = 'archive-toggle';
+  adiv.addEventListener('click', () => {
+    toggle_archived(email);
+  });
+
+  // Set class and innerHTML based on current archived status
+  if (email.archived)
+  {
+    adiv.classList.add('archived');
+    adiv.innerHTML = 'in archive';
+  }
+  else
+  {
+    adiv.classList.add('unarchived');
+    adiv.innerHTML = 'add to archive';
+  }
+
+  return adiv;
+}
+
+
+
+function reader_info_row(label, content){
   // Create a row for this info
   const rrow = new_row_div();
 
