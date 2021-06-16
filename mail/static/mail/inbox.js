@@ -87,7 +87,7 @@ function load_mailbox(mailbox) {
 
   // Show the mailbox name
   const emv = document.querySelector('#emails-view');
-  document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
+  emv.innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
 
   // Load the table-looking div of emails
   add_mailbox_container(mailbox, emv);
@@ -117,14 +117,12 @@ function mailbox_element(emails, mailbox){
   emails.forEach(function(email){
     // Start the row div, with different CSS for read vs. unread  
     const ediv = document.createElement('div');
-    ediv.classList.add('row');
+    ediv.classList.add('row', 'email-row');
   
     if (email.read){
       ediv.classList.add('read');
     }
-    else{
-      ediv.classList.add('unread');
-    }
+
 
     // Fill the row with columns of info
     ediv.innerHTML = mailbox_row_html(email.sender, email.subject, email.timestamp);
@@ -226,7 +224,7 @@ function read_email_element(email, mailbox){
   // Add the email contents
   const body = document.createElement('div');
   body.id = 'reader-body';
-  body.innerHTML = email.body;
+  body.innerHTML = email.body.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   ediv.append(body);
 
   return ediv;
@@ -257,7 +255,7 @@ function reader_info_row(label, content){
 function reader_command_col(){
   // Resuable column for email-specific buttons with any shared classes preset
   const col = document.createElement('div');
-  col.classList.add('col-lg-1', 'col-md-2', 'col-sm-4','col-6');
+  col.classList.add('col-lg-2', 'col-md-3', 'col-sm-4','col-6');
   return col;
 }
 
